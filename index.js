@@ -1,20 +1,25 @@
-require('dotenv').config()
-const express = require('express')
-const app = express()
-const port = 4000
+console.log("CHAMA 🗿");
 
-app.get('/', (req, res) => {
-  res.send(<h1>'Hello World!'</h1>)
-})
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
-app.get('/chama', (req, res) => {
-  res.send('ALEX POATAN PERIERA')
-})
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.get('/login', (req, res) => {
-  res.send('CHAMA')
-})
+// routes go here...
+// app.use('/api/collectors', require('./src/routes/collectors'));
+// etc.
 
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${port}`)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
+.then(() => console.log('MongoDB Atlas connected'))
+.catch(err => console.error('MongoDB connection error:', err));
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
+app.get('/', (req, res) => res.send('Recyclopedia backend is alive 🚀'));
