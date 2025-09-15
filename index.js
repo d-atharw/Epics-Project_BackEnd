@@ -1,25 +1,25 @@
 console.log("CHAMA 🗿");
 
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const express = require("express");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
 
+
+dotenv.config();
 const app = express();
-app.use(cors());
+
+// Middleware
 app.use(express.json());
 
-// routes go here...
-// app.use('/api/collectors', require('./src/routes/collectors'));
-// etc.
+// DB connect
+connectDB();
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB Atlas connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome to Recyclopedia Backend CHAMA 🗿</h1>");
+});
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
-app.get('/', (req, res) => res.send('Recyclopedia backend is alive 🚀'));
+// Routes
+app.use("/api/ideas", require("./routes/productIdeaRoutes"));
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
